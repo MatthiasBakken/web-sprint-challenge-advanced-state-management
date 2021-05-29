@@ -5,7 +5,7 @@ export const FETCH_SUCCESS = "FETCH_SECCESS";
 export const FETCH_FAIL = "FETCH_FAIL";
 export const ADD_SMURF = "ADD_SMURF";
 
-export const getSmurfs = () => {
+export const fetchSmurfs = () => {
   return dispatch => {
     dispatch( { type: IS_FETCHING } );
     
@@ -47,7 +47,7 @@ export const sendSmurf = ( smurf ) => {
       .then( res => {
         console.log( 'adding smurf success', res.data );
         dispatch( { type: ADD_SMURF, payload: smurf } );
-        getSmurfs();
+        fetchSmurfs();
       } )
       .catch( err => {
         console.log( err.message );
