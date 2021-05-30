@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
 
-import { fetchSmurfs } from "../actions";
 import Smurf from './Smurf';
 
+
 const SmurfList = ( props ) => {
-     
-    useEffect( () => {
-        props.fetchSmurfs();
-    }, []);
 
     if (props.appLoading || props.errorMessage) {
         return (
@@ -38,7 +34,7 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect( mapStateToProps, {fetchSmurfs} )( SmurfList );
+export default connect( mapStateToProps, {} )( SmurfList );
 
 //Task List:
 //1. Connect the smurfs and loading state values to the SmurfList component.
