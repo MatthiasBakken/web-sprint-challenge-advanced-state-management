@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const IS_FETCHING = "IS_FETCHING";
 export const FETCH_SUCCESS = "FETCH_SECCESS";
-export const FETCH_FAIL = "FETCH_FAIL";
+export const ERROR_HANDLER = "ERROR_HANDLER";
 export const ADD_SMURF = "ADD_SMURF";
 
 export const fetchSmurfs = () => {
@@ -15,7 +15,7 @@ export const fetchSmurfs = () => {
         dispatch( { type: FETCH_SUCCESS, payload: res.data } );
       } )
       .catch( err => {
-        dispatch( { type: FETCH_FAIL, payload: err.message } );
+        dispatch( { type: ERROR_HANDLER, payload: err.message } );
       } );
   };
 };
@@ -33,9 +33,9 @@ export const fetchSuccess = ( smurfs ) => {
   } );
 };
 
-export const fetchFail = ( message ) => {
+export const errorHandler = ( message ) => {
   return ( {
-    type: FETCH_FAIL,
+    type: ERROR_HANDLER,
     payload: message
   } );
 };
@@ -50,7 +50,7 @@ export const sendSmurf = ( smurf ) => {
         fetchSmurfs();
       } )
       .catch( err => {
-        console.log( err.message );
+        dispatch({ type: ERROR_HANDLER, payload: err.message })
       } );
   };
 };

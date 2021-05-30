@@ -1,4 +1,4 @@
-import { IS_FETCHING, FETCH_SUCCESS, FETCH_FAIL, ADD_SMURF } from "../actions";
+import { IS_FETCHING, FETCH_SUCCESS, ERROR_HANDLER, ADD_SMURF } from "../actions";
 
 export const initialState = {
   smurfs: [],
@@ -22,7 +22,7 @@ export const reducer = ( state = initialState, action ) => {
         appLoading: false
       } );
     
-    case ( FETCH_FAIL ):
+    case ( ERROR_HANDLER ):
       return ( {
         ...state,
         errorMessage: action.payload,
