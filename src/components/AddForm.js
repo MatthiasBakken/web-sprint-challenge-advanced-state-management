@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+
+import { addSmurf, errorHandler } from "../actions";
+
+
+const initialState = {
+    name: "",
+    position: "",
+    nickname: "",
+    description: ""
+};
 
 const AddForm = (props) => {
-    const [state, setState] = useState({
-        name:"",
-        position:"",
-        nickname:"",
-        description:""
-    });
+    const [state, setState] = useState(initialState);
 
     const handleChange = e => {
         setState({
@@ -18,11 +25,16 @@ const AddForm = (props) => {
     const handleSubmit = e => {
         e.preventDefault();
         if (state.name === "" || state.position === "" || state.nickname === "") {
-            errorMessage = "Name, position and nickname fields are required.";
+            props.errorHandler( "Name, position and nickname fields are required." );
+        } else {
+            props.addSmurf( { id: uuidv4(), ...state } );
+            props.errorHandler( "" );
+            setState( initialState );
         }
     }
 
-    const errorMessage = "";
+    let errorMessage = props.errorMessage;
+    console.log('err message', props.errorMessage)
 
     return(<section>
         <h2>Add Smurf</h2>
@@ -44,14 +56,22 @@ const AddForm = (props) => {
                 <textarea onChange={handleChange} value={state.description} name="description" id="description" />
             </div>
             {
-                errorMessage && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {errorMessage}</div>
+                errorMessage.length > 0 && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {errorMessage}</div>
             }
             <button>Submit Smurf</button>
         </form>
     </section>);
 }
 
-export default AddForm;
+const mapStateToProps = state => {
+    return {
+        smurfs: state.smurfs,
+        appLoading: state.appLoading,
+        errorMessage: state.errorMessage
+    }
+}
+
+export default connect( mapStateToProps, { addSmurf, errorHandler } )( AddForm );
 
 //Task List:
 //1. Connect the errorMessage, setError and addSmurf actions to the AddForm component.
